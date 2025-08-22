@@ -1,4 +1,4 @@
-from typing import list
+from typing import List
 from pydantic import BaseSettings
 from pydantic import field_validator
 

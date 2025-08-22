@@ -36,7 +36,7 @@ def create_story(
 ):
     response.set_cookie(key="session_id", value=session_id, httponly=True)
     job_id = str(uuid.uuid4())
-    job = storyJob(
+    job = StoryJob(
         job_id=job_id,
         session_id=session_id,
         theme=request.theme,
@@ -78,3 +78,19 @@ def generate_story_task(job_id: str, theme: str, session_id: str):
             db.commit()
     finally:
         db.close()
+
+
+@router.get("/{story_id}/complete", response_model=CompleteStoryResponse)
+def get_story(
+    story_id: int,
+    db: Session = Depends(get_db)
+):
+    story = db.query(Story).filter(Story.id == story_id).first()
+    if not story:
+        raise HTTPException(status_code=404, detail="Story not found")
+
+    complete_story = build_complete_story_tree(db, story)
+    return complete_story
+
+def build_complete_story_tree(db: Session, story: Story) -> CompleteStoryNodeResponse:
+    pass
