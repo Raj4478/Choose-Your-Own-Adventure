@@ -1,20 +1,22 @@
 import uuid
 from typing import Optional
-from datetime import DateTime
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Cookie, StoryJobResponse
+from datetime import datetime
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Cookie, Response
 from sqlalchemy.orm import Session
 
-from backend.db.database import get_db, SessionLocal
-from backend.models.story import Story, StoryNode
-from backend.models.job import StoryJob
-from backend.schemas.story import (
+from db.database import get_db, SessionLocal
+from models.story import Story, StoryNode
+from models.job import StoryJob
+from schemas.story import (
     CompleteStoryResponse,
     CompleteStoryNodeResponse,
     CreateStoryRequest
 )
-from backend.schemas.job import (
+from schemas.job import (
     StoryJobResponse
 )
+
+from core.story_generator import StoryGenerator
 
 router = APIRouter(
     prefix="/story",
@@ -54,9 +56,9 @@ def create_story(
     return job
 
 def generate_story_task(job_id: str, theme: str, session_id: str):
-    db = Sessionlocal()
+    db = SessionLocal()
     try:
-        job = db.query(storyJob).filter(storyJob.id == job_id).first()
+        job = db.query(StoryJob).filter(StoryJob.id == job_id).first()
 
         if not job:
             return
@@ -65,9 +67,9 @@ def generate_story_task(job_id: str, theme: str, session_id: str):
             job.status = "processing"
             db.commit()
 
-            story = {}
+            story = StoryGenerator.generate_story(theme)
 
-            job.story_id = 1
+            job.story_id = story.id
             job.status = "completed"
             job.completed_at = datetime.now()
             db.commit()
