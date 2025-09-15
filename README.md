@@ -46,12 +46,6 @@ Choose Your Own Adventure recreates the classic book series experience:
    # Using Python
    python -m http.server 8000
    
-   # Using Node.js (http-server)
-   npx http-server
-   
-   # Using PHP
-   php -S localhost:8000
-   ```
 
 3. **Access the application**
    Navigate to `http://localhost:8000` in your browser
@@ -153,11 +147,9 @@ Stories are structured in JSON format with the following schema:
 - Adjustable font sizes
 
 
-Experience the adventure online: [Your Demo Link]
-
 ## 📱 Screenshots
 
-*Add screenshots of your application here*
+
 
 - Main menu interface
 - Story reading view
@@ -197,7 +189,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 **Raj4478**
 - GitHub: [@Raj4478](https://github.com/Raj4478)
-- LinkedIn: [Your LinkedIn Profile]
+- LinkedIn: [https://www.linkedin.com/in/rajeshwar-singh-b77075271]
 
 ## 🎉 Acknowledgments
 
